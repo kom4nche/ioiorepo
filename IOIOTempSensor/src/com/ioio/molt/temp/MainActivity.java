@@ -17,11 +17,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Date;
 import ioio.lib.api.AnalogInput;
-import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.DigitalOutput.Spec.Mode;
 import ioio.lib.api.exception.ConnectionLostException;
@@ -115,24 +112,16 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 		@Override
 		public void loop() throws ConnectionLostException {
 			try {
-				float v = inputPin_.read();
-				String units = "Lbs";
-				float temp = v; 
-				//if (radioF_.isChecked()) {
-				//	temp = temp * 9.0f / 5.0f + 32.0f; 
-				//	units = "F";
-				//}
+				float v = inputPin_.getVoltage();
+				String units = "C";
+				float temp = (v - 0.5f) * 100.0f; 
+				if (radioF_.isChecked()) {
+					temp = temp * 9.0f / 5.0f + 32.0f; 
+					units = "F";
+				}
 				// round to 1 dp
-
-				temp = temp * 100.00f;
 				temp = Math.round(temp * 10) / 10.0f;
-					
-				if (temp > 15)
 				updateTempField(temp, units);
-				
-				else updateTempField(0, units);
-
-				
 				long now = System.currentTimeMillis();
 				if (now > lastSampleTime_ + SAMPLE_PERIOD) {
 					logTemp(temp, units);
@@ -175,7 +164,7 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				temperature_.setText("" + temp  + " " + units);
+				temperature_.setText("" + temp + " " + units);
 			}
 		});
 	}
