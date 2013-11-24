@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.widget.ToggleButton;
 
 /**
- * This is the main activity of the HelloIOIO example application.
+ * This is the main activity of the HelloIOIO example application. xd
  * 
  * It displays a toggle button on the screen, which enables control of the
  * on-board LED. This example shows a very simple usage of the IOIO, by using
