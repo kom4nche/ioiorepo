@@ -18,20 +18,7 @@
     android:textSize="28pt"
     android:id="@+id/temp"
     />
-<RadioGroup
-   android:layout_width="fill_parent"
-   android:layout_height="wrap_content"
-   android:orientation="horizontal">
-   <RadioButton android:id="@+id/radio_f"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:checked="true"
-       android:text=" deg F  " />
-   <RadioButton android:id="@+id/radio_c"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text=" deg C  " />
- </RadioGroup> 
+
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
    	android:orientation="horizontal"

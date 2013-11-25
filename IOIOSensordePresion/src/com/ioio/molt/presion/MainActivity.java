@@ -43,10 +43,10 @@ import android.widget.ToggleButton;
 /**
  * This is the main activity of TempSensor application.
  * 
- * Muestra los datos del sensor de temperatura TMP36 en la pantalla del dispositivo
- * se uso como base la aplicacion TempLogger del libro Making Android Accesories
- * de Simon Monk, pero es un port a la version IOIO-OTG ya que los metodos
- * antiguos no funcionan en la nueva placa IOIO.
+ * Muestra los datos del sensor de presion de FlexiForce
+ * es una modificacion de la aplicacion TempLogger del libro 
+ * Making Android Accesories de Simon Monk. Pero se cambio todo el sistema
+ * de lectura, ya que se usa para leer la entrada analoga en el pin 45.
  */
 public class MainActivity extends IOIOActivity implements OnCheckedChangeListener {
 	
@@ -70,7 +70,7 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
         temperature_ = (TextView)findViewById(R.id.temp);
-        radioF_ = (RadioButton)findViewById(R.id.radio_f);
+        //radioF_ = (RadioButton)findViewById(R.id.radio_f);
         logButton_ = (ToggleButton)findViewById(R.id.logButton);
         logButton_.setOnCheckedChangeListener(this);
         lastLogLine_ = (TextView)findViewById(R.id.lastLogLine);	    
