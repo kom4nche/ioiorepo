@@ -1,10 +1,16 @@
-package ioio.examples.hello.BotonRojo;
+/*
+ * 
+ * @autor: Juan Guillermo Molt 
+ * @versión: 1.0
+ * @fecha: 26/11/2013
+ * 
+*/
+
+package com.ioio.molt.BotonRojo;
 
 import java.io.IOException;
 
-import ioio.examples.hello.BotonRojo.R;
-import ioio.examples.hello.BotonRojo.R.id;
-import ioio.examples.hello.BotonRojo.R.layout;
+import com.ioio.molt.BotonRojo.*;
 import ioio.lib.api.DigitalOutput;
 import ioio.lib.api.DigitalInput;
 import ioio.lib.api.DigitalInput.Spec.Mode;
@@ -32,21 +38,21 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 /**
- * This is the main activity of the HelloIOIO example application.
+ * Esta es la actividad principal de IOIOBotonRojo.
  * 
- * It displays a toggle button on the screen, which enables control of the
- * on-board LED. This example shows a very simple usage of the IOIO, by using
- * the {@link IOIOActivity} class. For a more advanced use case, see the
- * HelloIOIOPower example.
+ * La aplicacion envia un SMS de advertencia a otro equipo, cuando el boton es activado.
+ * Ademas reproduce un sonido de alerta, mientras se envia el SMS, el sonido puede ser desactivado
+ * manteniendo presionado el boton por un rato.
+ * IOIOBotonRojo example.
  */
 public class MainActivity extends IOIOActivity {
 	private ToggleButton button_;
 
-	private SoundPool soundPool;
+	//private SoundPool soundPool;
+	//private int soundID;
+	
 	private MediaPlayer sound1;
-	private int soundID;
 	boolean loaded = false;
-	boolean siempre = false;
 	/**
 	 * Called when the activity is first created. Here we normally initialize
 	 * our GUI.
@@ -57,20 +63,19 @@ public class MainActivity extends IOIOActivity {
 		setContentView(R.layout.main);
 		button_ = (ToggleButton) findViewById(R.id.button);
 	    View view = findViewById(R.id.textView1);
-	    //view.setOnTouchListener(this);
+	    // view.setOnTouchListener(this);
 	    // Set the hardware buttons to control the music
-	    this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+	    //this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	    // Load the sound
-	    soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-	    soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
+	    //soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+	    /*soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
 	      @Override
 	      public void onLoadComplete(SoundPool soundPool, int sampleId,
 	          int status) {
 	        loaded = true;
 	      }
 	    });
-	    soundID = soundPool.load(this, R.raw.sound1, 1);
-	    
+	    soundID = soundPool.load(this, R.raw.sound1, 1);*/
 	    
 	}
 
@@ -123,44 +128,22 @@ public class MainActivity extends IOIOActivity {
 				e1.printStackTrace();
 			}
 			
-			/*if (siempre == true)
-			{
-				for (int i=0;i<6;i++)
-				{
-					led.write(true); 
-					try {
-						Thread.sleep(400);
-					} 
-				
-					catch (InterruptedException e) {	
-					}
-					
-					led.write(false);	
-					try {
-						Thread.sleep(400);
-					} 
-				
-					catch (InterruptedException e) {
-					}
-				}		
-			}*/
-			
 			
 			if (wasMovement == true)
 			{
-				//siempre = true;
-				//sendSMS();
-				//play();
+
 				wasMovement = false;
 				
-				sound1 = MediaPlayer.create(MainActivity.this, R.raw.sound2);
+				sound1 = MediaPlayer.create(MainActivity.this, R.raw.sound3);
 				sound1.start();
-
+				
+				sendSMS();
 				toast("Mensaje Enviado");
 			
+				// aca comienza el loop de encendido de la alarma
 				//////////////////////////////////////////////////
 				
-				for (int i=0;i<30;i++)
+				for (int i=0;i<40;i++)
 				{
 					
 					led.write(true); 
@@ -196,7 +179,8 @@ public class MainActivity extends IOIOActivity {
 						sound1.stop();	
 					}
 				}
-				/////////////////////////////////////////////
+				// aca termina el loop de encendido de la alarma
+				///////////////////////////////////////////////
 				
 			sound1.stop();	
 			}
@@ -228,8 +212,8 @@ public class MainActivity extends IOIOActivity {
 
 	private void sendSMS() 
 	{
-		String number = "76585390";
-		String message = "Mensaje arreglado! Ahora envia 1 no mas :P";
+		String number = "72161142";
+	    String message = "Sistema activado! avise si recibio este mensaje :P";
 		Context context = getApplicationContext();
 		PendingIntent pi = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), 0);                
 		SmsManager sms = SmsManager.getDefault();
@@ -237,7 +221,7 @@ public class MainActivity extends IOIOActivity {
 		//toast("SMS Sent");
 	}
 	
-	private void play() 
+	/*private void play() 
 	{
     // Getting the user sound settings
     AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -252,7 +236,7 @@ public class MainActivity extends IOIOActivity {
       //Log.e("Test", "Played sound");
       //toast("Played sound");
       }
-    }
+    } */
     
 	private void toast(final String message) {
 		runOnUiThread(new Runnable() {
