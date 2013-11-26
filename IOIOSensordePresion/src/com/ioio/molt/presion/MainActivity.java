@@ -53,7 +53,7 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 	private final static long SAMPLE_PERIOD = 10000; // 10 seconds
 	private static final int PLUS_PIN = 44;
 	private static final int GND_PIN = 46;
-	private static final int INPUT_PIN = 45;	
+	private static final int INPUT_PIN = 41;	
 	
 	private TextView temperature_;
 	private RadioButton radioF_;
@@ -101,8 +101,8 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 		 */
 		@Override
 		protected void setup() throws ConnectionLostException {
-			gndPin_ = ioio_.openDigitalOutput(GND_PIN, Mode.NORMAL, false); // gnd supply to temp sensor
-			plusPin_ = ioio_.openDigitalOutput(PLUS_PIN, Mode.NORMAL, true); // positive supply to temp sensor
+			//gndPin_ = ioio_.openDigitalOutput(GND_PIN, Mode.NORMAL, false); // gnd supply to temp sensor
+			//plusPin_ = ioio_.openDigitalOutput(PLUS_PIN, Mode.NORMAL, true); // positive supply to temp sensor
 			inputPin_ = ioio_.openAnalogInput(INPUT_PIN);
 		}
 
@@ -118,7 +118,7 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 		@Override
 		public void loop() throws ConnectionLostException {
 			try {
-				float v = inputPin_.read();
+				float v = inputPin_.getVoltage();
 				String units = "Lbs";
 				float temp = v; 
 				//if (radioF_.isChecked()) {
@@ -129,8 +129,9 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 
 				temp = temp * 100.00f;
 				temp = Math.round(temp * 10) / 10.0f;
+				temp = temp/3.3f;
 					
-				if (temp > 15)
+				if (temp > 17)
 				updateTempField(temp, units);
 				
 				else updateTempField(0, units);
