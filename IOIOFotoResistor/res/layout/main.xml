@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="IOIO FotoResistor"
+    android:textSize="14pt"
+    android:id="@+id/title"
+    />
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="-"
+    android:textSize="28pt"
+    android:id="@+id/temp"
+    />
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   	android:orientation="horizontal"
+   	android:layout_width="wrap_content"
+   	android:layout_height="wrap_content">
+	<ToggleButton 
+ 		android:layout_width="wrap_content" 
+  		android:layout_height="wrap_content" 
+  		android:id="@+id/logButton"/>
+ 	<TextView  
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content" 
+    	android:textSize="12pt"
+    	android:text="   Logging"
+    />
+</LinearLayout>    
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="-"
+    android:id="@+id/lastLogLine"
+    />
+  
+</LinearLayout>
