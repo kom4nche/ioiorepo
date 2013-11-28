@@ -47,12 +47,15 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 	private final static long SAMPLE_PERIOD = 10000; // 10 seconds
 	private static final int PLUS_PIN = 44;
 	private static final int GND_PIN = 46;
-	private static final int INPUT_PIN = 45;	
+	private static final int INPUT_PIN = 37;	
 	
 	private TextView temperature_;
 	private RadioButton radioF_;
 	private ToggleButton logButton_;
 	private TextView lastLogLine_;
+	
+	private float anterior;
+	private float nuevo;
 
 	private long lastSampleTime_;
 	/**
@@ -121,7 +124,9 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 				}
 				// round to 1 dp
 				temp = Math.round(temp * 10) / 10.0f;
-				updateTempField(temp, units);
+				
+				if (Math.abs(anterior - temp)>= 0.8f) updateTempField(temp, units);
+				
 				long now = System.currentTimeMillis();
 				if (now > lastSampleTime_ + SAMPLE_PERIOD) {
 					logTemp(temp, units);
@@ -165,6 +170,7 @@ public class MainActivity extends IOIOActivity implements OnCheckedChangeListene
 			@Override
 			public void run() {
 				temperature_.setText("" + temp + " " + units);
+				anterior = temp;
 			}
 		});
 	}
