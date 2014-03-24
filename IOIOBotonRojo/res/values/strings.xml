@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label">Molt APP SERVER</string>
-    <string name="app_name">IOIO Service</string>
+    <string name="app_name">Alertas</string>
+    <string name="iniciar">Iniciar Servicio</string>
+    <string name="detener">Detener Servicio</string>
 </resources>

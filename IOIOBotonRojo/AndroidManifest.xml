@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	android:versionCode="1" android:versionName="1.0" package="cl.molt.app.servidor">
-	<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="8" />
+	<uses-sdk android:targetSdkVersion="10" android:minSdkVersion="7" />
+	
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.SEND_SMS"/>
@@ -11,13 +16,17 @@
 		<uses-library android:name="com.android.future.usb.accessory"
 			android:required="false" />
 		<service android:name="ServicioAlertas">
+		
 			<intent-filter>
 				<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
 			</intent-filter>
 			<meta-data android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
 				android:resource="@xml/accessory_filter" />
 		</service>
-		<activity android:label="@string/app_name" android:name="MainActivity"
+		
+		<service android:name="cl.molt.app.servidor.ServicioUbicacion"></service>
+		
+		<activity android:label="@string/app_name" android:name="cl.molt.app.servidor.MainActivity"
 			android:launchMode="singleTask">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />

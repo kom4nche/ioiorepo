@@ -56,6 +56,8 @@ public class ServicioAlertas extends IOIOService {
 
 	private MediaPlayer sound1;
 	boolean loaded = false;
+	
+	Intent intent;
 
 	@Override
 	protected IOIOLooper createIOIOLooper() {
@@ -89,6 +91,12 @@ public class ServicioAlertas extends IOIOService {
 				{
 
 					wasMovement = false;
+					
+					if (intent == null)
+					{
+						intent = new Intent(getApplicationContext(), ServicioUbicacion.class);
+						startService(intent); 
+					}
 
 					tipo = "P";
 
@@ -96,12 +104,12 @@ public class ServicioAlertas extends IOIOService {
 		    		tarea.execute(patente, tipo
 		    				               );
 		    		
-		    		sendSMS(tipo);
+		    		//sendSMS(tipo);
 				
 					// aca comienza el loop de encendido de la alarma
 					//////////////////////////////////////////////////
 					
-					for (int i=0;i<50;i++)
+					for (int i=0;i<3;i++)
 					{
 						
 						led.write(true); 
@@ -168,19 +176,19 @@ public class ServicioAlertas extends IOIOService {
 			if (intent != null && intent.getAction() != null
 					&& intent.getAction().equals("stop")) {
 				// User clicked the notification. Need to stop the service.
-				nm.cancel(0);
+				nm.cancel(1);
 				stopSelf();
 			} else {
 				// Service starting. Create a notification.
 				Notification notification = new Notification(
-						R.drawable.ic_launcher, "IOIO service running",
+						R.drawable.ic_launcher, "Servicio Alertas Encendido",
 						System.currentTimeMillis());
 				notification
-						.setLatestEventInfo(this, "IOIO Service", "Click to stop",
+						.setLatestEventInfo(this, "Servicio Alertas", "Click para apagar",
 								PendingIntent.getService(this, 0, new Intent(
 										"stop", null, this, this.getClass()), 0));
 				notification.flags |= Notification.FLAG_ONGOING_EVENT;
-				nm.notify(0, notification);
+				nm.notify(1, notification);
 			}
 		}
 	
@@ -264,6 +272,7 @@ public class ServicioAlertas extends IOIOService {
 		SmsManager sms = SmsManager.getDefault();
 		sms.sendTextMessage(number, null, message, pi, null);  
 		//toast("SMS Sent");
+		//Toast.makeText(this,"sms enviado",Toast.LENGTH_SHORT).show();
 	}
     
 
