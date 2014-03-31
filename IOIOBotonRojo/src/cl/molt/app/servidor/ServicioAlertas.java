@@ -64,11 +64,13 @@ public class ServicioAlertas extends IOIOService {
 		return new BaseIOIOLooper() {
 			private DigitalOutput led;
 			private DigitalInput pulsador;
+			boolean ciclo = true;
+			boolean otro = true;
 
 			@Override
 			protected void setup() throws ConnectionLostException,
 					InterruptedException {
-				pulsador = ioio_.openDigitalInput(7, Mode.PULL_UP);
+				pulsador = ioio_.openDigitalInput(7, Mode.PULL_DOWN);
 				led = ioio_.openDigitalOutput(46);
 			}
 
@@ -77,20 +79,38 @@ public class ServicioAlertas extends IOIOService {
 					InterruptedException {
 				
 				boolean wasMovement = false;
+				
+				
+				
+				if(ciclo == true)
+				{
 				try {
 					
-					wasMovement = !pulsador.read();
+					wasMovement = pulsador.read();
 					
 				} catch (InterruptedException e1) {
 
 					e1.printStackTrace();
 				}
+				}
+				else
+				{				try {
+					
+					otro = pulsador.read();
+					
+				} catch (InterruptedException e1) {
+
+					e1.printStackTrace();
+				}
+				if (otro == false) ciclo = true;
 				
+				}
 				
 				if (wasMovement == true)
 				{
 
 					wasMovement = false;
+					ciclo = false;
 					
 					if (intent == null)
 					{
@@ -124,14 +144,15 @@ public class ServicioAlertas extends IOIOService {
 						{
 							//sound1.stop();	
 						}
-						
+						if (ciclo==true)
+						{
 						try {
-							wasMovement = !pulsador.read();
+							wasMovement = pulsador.read();
 
 						} catch (InterruptedException e1) {
 							e1.printStackTrace();
 						}
-						
+						}
 						led.write(false);
 						try {
 							Thread.sleep(400);
